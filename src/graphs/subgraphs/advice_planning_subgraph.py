@@ -60,6 +60,7 @@ def build_planner_subgraph():
 
     10. Always try to improve the plan based on the feedback from both the user and the expert. If you think the plan cannot be improved any further, output the best version.
     11. Don't assume the role of the feedback provider. You are working on the feedback provided.
+    12. CRUICIAL: Make sure you don't exceed maximum number of steps in suggested plan. Max steps: {max_steps}. 
     """
 
     def advice_planner(state: AdvicePlanningState):
@@ -210,7 +211,7 @@ def build_planner_subgraph():
         user_feedback = interrupt(f'\n\n* * * * *\n\nDo you have any suggestions for the proposed steps in your Wellbeing Action Plan?.\n\n{plan}\n\n* * * * *\n\n')
 
         # Print progress message
-        log(f'[User input] Feedback from the user: "{user_feedback}"')
+        log(f'[User input] "{user_feedback}"')
         
         if user_feedback =="No feedback":
             return {"user_feedback" : False}

@@ -11,13 +11,15 @@ from src.utils.logging_utils import init_timer
 import os
 from termcolor import colored 
 from langgraph.types import Command
-from IPython.display import Markdown
+from rich.console import Console
+from rich.markdown import Markdown
+from rich.theme import Theme
 
 
 def main(initial_input):
     
     # Verify if all environment variables are loaded
-    required_vars = ["OPENAI_API_KEY", "LANGCHAIN_API_KEY", "TAVILY_API_KEY"] 
+    required_vars = ["OPENAI_API_KEY", "TAVILY_API_KEY"] 
     missing_vars = [var for var in required_vars if not os.getenv(var)]
     
     if missing_vars:
@@ -48,15 +50,23 @@ def main(initial_input):
       
         # Resume and get new result
         result = graph.invoke(Command(resume=user_input), config=thread)
-         
-    Markdown(result["final_plan"])
+
+    # Prepare render to Markdown
+    custom_theme = Theme({
+    "markdown.h1": "bold yellow",
+    "markdown.h2": "bold yellow"
+    })
+
+    console = Console(theme=custom_theme)
+    md = Markdown(result["final_plan"])
+    console.print(md)     
 
 
 if __name__ == "__main__":
 
     print(colored("\n*** Welcome to the Wellbeing Assistant demo! ***\n", "cyan"))
 
-    default_input = "I'm feeling very stressed at work, and I don't sleep well."
+    default_input = "I'm feeling very stressed at work, because I don't like being surrounded by many people in an open office."
     print('Describe your wellbeing challenge or press', colored('[enter]', "yellow"), 'for', colored('default demo input.', 'yellow'), f'\nDefault input:', colored(f'"{default_input}"\n', "yellow"))
     user_input = input("> ")
     

@@ -1,5 +1,5 @@
-from src.graphs.subrgaphs.advice_planning_subgraph import build_planner_subgraph 
-from src.graphs.subrgaphs.consultation_subgraph import build_consultation_subgraph
+from src.graphs.subgraphs.advice_planning_subgraph import build_planner_subgraph 
+from src.graphs.subgraphs.consultation_subgraph import build_consultation_subgraph
 from src.schemas.models import Step
 from src.schemas.states import OverallState, PlanningOutputState
 from src.utils.logging_utils import log, init_timer
